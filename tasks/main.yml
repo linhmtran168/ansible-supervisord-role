@@ -1,0 +1,24 @@
+---
+- name: install supervisor
+  apt: name={{ item }} state=latest
+  with_items:
+    - supervisor
+
+- name: create the config folder
+  file: state=directory path={{ item }}
+  with_items:
+    - "{{ sp_config_folder }}"
+    - "{{ sp_log_folder }}"
+
+- name: copy configuration file
+  template: src=supervisord.conf.j2 dest={{ supervisor.conf_file }}
+
+- name: add supervisor program
+  template: src={{ sp_app_name }}.ini.j2 dest={{ sp_config_folder }}/{{ sp_app_name }}.ini
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers
+
+- name: start the the supervisor program
+  supervisorctl: name={{ sp_app_name }} state=started

@@ -1,0 +1,8 @@
+---
+# defaults file for ansible-supervisord
+sp_config_folder: /etc/supervisor/conf.d
+sp_log_folder: /var/log/supervisor
+sp_conf_file: /etc/supervisor/supervisord.conf
+sp_app_name: default
+sp_app_user: linhtm
+sp_app_dir: /var/www/app
